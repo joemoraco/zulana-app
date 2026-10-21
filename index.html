@@ -3,36 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zulana System | Cloud V2.0</title>
+    <title>Zulana System | Cloud Completo</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase SDK (Versión 8 Compat para ejecutar sin servidor local) -->
+    <!-- Firebase SDK (Versión 8 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        zulanaBg: '#0F172A',
-                        zulanaCard: '#1E293B',
-                        zulanaCyan: '#06B6D4',
-                        zulanaCyanHover: '#0891B2'
-                    }
-                }
-            }
+            theme: { extend: { colors: { zulanaBg: '#0F172A', zulanaCard: '#1E293B', zulanaCyan: '#06B6D4', zulanaCyanHover: '#0891B2' } } }
         }
     </script>
     <style>
         body { background-color: #0F172A; color: #F8FAFC; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .hidden { display: none !important; }
         .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        /* Scrollbar styling */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0F172A; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -48,7 +38,7 @@
                     <img src="20260723_161902.jpg" alt="Zulana Logo" class="h-10 w-10 rounded-full object-cover border-2 border-zulanaCyan">
                     <div>
                         <h1 class="font-bold text-xl tracking-wider text-white">ZULANA</h1>
-                        <p class="text-[10px] text-emerald-400 font-bold"><i class="fa-solid fa-cloud"></i> Sync Activo</p>
+                        <p class="text-[10px] text-emerald-400 font-bold" id="statusNube"><i class="fa-solid fa-cloud"></i> Conectando...</p>
                     </div>
                 </div>
             </div>
@@ -89,18 +79,14 @@
             <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Catálogo Oficial de Zulana</h2>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                <!-- Calculadora y Formulario -->
+                <!-- Calculadora -->
                 <div class="glass-panel p-6 rounded-xl border border-slate-700 relative">
-                    <!-- Overlay de carga -->
                     <div id="loadingOverlay" class="hidden absolute inset-0 bg-slate-900/80 rounded-xl flex items-center justify-center z-10">
                         <i class="fa-solid fa-circle-notch fa-spin text-4xl text-zulanaCyan"></i>
                     </div>
 
                     <h3 class="text-lg font-semibold mb-4 text-zulanaCyan"><i class="fa-solid fa-plus-circle"></i> Nuevo Registro</h3>
                     <div class="space-y-4">
-                        
-                        <!-- Selectores de Catálogo -->
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs text-slate-400 mb-1">Categoría</label>
@@ -122,7 +108,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1">Descripción del Trabajo (Visible en historial)</label>
+                            <label class="block text-xs text-slate-400 mb-1">Descripción del Trabajo</label>
                             <input type="text" id="descServicio" placeholder="Ej. Cambio Tapa iPhone 11 Negra" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-white">
                         </div>
                         
@@ -137,23 +123,18 @@
                             </div>
                         </div>
                         
-                        <!-- Panel de Cálculos -->
                         <div class="bg-slate-800 p-4 rounded-lg mt-4 border border-slate-700">
                             <div class="flex justify-between mb-2">
-                                <span class="text-slate-400 text-sm">Ganancia Bruta:</span>
-                                <span id="resGB" class="font-semibold text-white">$0</span>
+                                <span class="text-slate-400 text-sm">Ganancia Bruta:</span><span id="resGB" class="font-semibold text-white">$0</span>
                             </div>
                             <div class="flex justify-between mb-2 text-sm text-yellow-400">
-                                <span id="labelFI"><i class="fa-solid fa-flask"></i> Fondo Insumos (5%):</span>
-                                <span id="resFI" class="font-bold">-$0</span>
+                                <span id="labelFI"><i class="fa-solid fa-flask"></i> Fondo Insumos (5%):</span><span id="resFI" class="font-bold">-$0</span>
                             </div>
                             <div class="flex justify-between mb-2 text-sm text-orange-400">
-                                <span><i class="fa-solid fa-wrench"></i> Fondo Herr. (5%):</span>
-                                <span id="resFH" class="font-bold">-$0</span>
+                                <span><i class="fa-solid fa-wrench"></i> Fondo Herr. (5%):</span><span id="resFH" class="font-bold">-$0</span>
                             </div>
                             <div class="border-t border-slate-600 pt-2 mt-2 flex justify-between items-center">
-                                <span class="text-white font-bold">Ganancia Libre:</span>
-                                <span id="resNeto" class="text-2xl font-black text-emerald-400">$0</span>
+                                <span class="text-white font-bold">Ganancia Libre:</span><span id="resNeto" class="text-2xl font-black text-emerald-400">$0</span>
                             </div>
                         </div>
 
@@ -170,20 +151,52 @@
                         <span class="bg-slate-800 text-xs text-slate-300 px-2 py-1 rounded border border-slate-600">Sincronizado</span>
                     </div>
                     <div id="listaReparaciones" class="space-y-3 overflow-y-auto flex-1 max-h-[500px] pr-2">
-                        <p class="text-slate-500 italic text-sm text-center mt-10">Conectando a Firebase...</p>
+                        <p class="text-slate-500 italic text-sm text-center mt-10">Cargando datos de la nube...</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- VISTAS PLACEHOLDER (Inventario / Insumos) -->
+        <!-- VISTA 2: INVENTARIO Y SCRAP -->
         <section id="view-inventario" class="hidden">
-            <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Inventario y Scrap (Próximo Módulo)</h2>
-            <p class="text-slate-400">Aquí gestionaremos las etiquetas de "Huesos" conectadas a la nube.</p>
+            <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-2">
+                <h2 class="text-2xl font-bold text-white">Inventario y Scrap (Huesos)</h2>
+                <button onclick="abrirModalScrap()" class="bg-zulanaCyan px-4 py-2 rounded text-sm font-bold hover:bg-zulanaCyanHover transition-colors"><i class="fa-solid fa-plus"></i> Nuevo Equipo</button>
+            </div>
+            <div class="bg-slate-800 p-4 rounded text-sm text-slate-400 border border-slate-700 mb-6">
+                <i class="fa-solid fa-circle-info text-zulanaCyan"></i> El capital gastado en estos equipos sale de tu Cajita Operativa Nu. 
+            </div>
+            
+            <div id="listaScrap" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <p class="text-slate-500 italic text-sm">Cargando inventario de Firebase...</p>
+            </div>
         </section>
+
+        <!-- VISTA 3: ESTADO DE FONDOS -->
         <section id="view-insumos" class="hidden">
-            <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Estado de Fondos (Próximo Módulo)</h2>
-            <p class="text-slate-400">Aquí visualizaremos las métricas de gasto vs ingreso de insumos y herramientas.</p>
+            <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Fondos Históricos (Nu Cajitas)</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Panel Insumos -->
+                <div class="glass-panel p-6 rounded-xl border-t-4 border-t-yellow-500">
+                    <h3 class="text-lg font-bold text-white mb-2"><i class="fa-solid fa-flask text-yellow-500"></i> Fondo de Insumos</h3>
+                    <p class="text-sm text-slate-400 mb-4">Total acumulado histórico de las retenciones (5% y directas).</p>
+                    <div class="text-4xl font-black text-white mb-6" id="totalHistoricoInsumos">$0.00</div>
+                    <div class="p-3 bg-slate-800 border border-slate-700 rounded text-slate-300 text-sm flex gap-2 items-center">
+                        <i class="fa-solid fa-money-bill-transfer text-emerald-400"></i> Para uso exclusivo de compras de estaño, flux, etc.
+                    </div>
+                </div>
+
+                <!-- Panel Herramientas -->
+                <div class="glass-panel p-6 rounded-xl border-t-4 border-t-orange-500">
+                    <h3 class="text-lg font-bold text-white mb-2"><i class="fa-solid fa-wrench text-orange-500"></i> Fondo de Herramientas</h3>
+                    <p class="text-sm text-slate-400 mb-4">Total acumulado histórico para mantenimiento de taller y equipo.</p>
+                    <div class="text-4xl font-black text-white mb-6" id="totalHistoricoHerr">$0.00</div>
+                    <div class="p-3 bg-slate-800 border border-slate-700 rounded text-slate-300 text-sm flex gap-2 items-center">
+                        <i class="fa-solid fa-credit-card text-emerald-400"></i> Úsalo para pagar la mensualidad de la Estación en Nu.
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
@@ -192,40 +205,62 @@
     <div id="modalCorte" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4">
         <div class="bg-zulanaCard border border-slate-600 rounded-xl p-6 w-full max-w-md">
             <h2 class="text-2xl font-bold text-white mb-2 text-center">Corte Diario Nu</h2>
-            <p class="text-slate-400 text-xs text-center mb-6">Monto acumulado por TODOS los técnicos el día de hoy.</p>
-            
+            <p class="text-slate-400 text-xs text-center mb-6">Monto a transferir hoy por TODOS los técnicos.</p>
             <div class="space-y-4">
-                <div class="bg-slate-800 p-4 rounded-lg flex justify-between items-center border border-yellow-700/50">
-                    <div>
-                        <span class="block text-xs uppercase text-slate-400">Mover a Cajita 1</span>
-                        <span class="font-bold text-yellow-400 text-lg">Fondo Insumos</span>
-                    </div>
+                <div class="bg-slate-800 p-4 rounded flex justify-between items-center border border-yellow-700/50">
+                    <div><span class="block text-xs uppercase text-slate-400">Mover a Cajita 1</span><span class="font-bold text-yellow-400">Fondo Insumos</span></div>
                     <span id="modalInsumos" class="text-2xl font-black text-white">$0</span>
                 </div>
-                <div class="bg-slate-800 p-4 rounded-lg flex justify-between items-center border border-orange-700/50">
-                    <div>
-                        <span class="block text-xs uppercase text-slate-400">Mover a Cajita 2</span>
-                        <span class="font-bold text-orange-400 text-lg">Fondo Herramientas</span>
-                    </div>
+                <div class="bg-slate-800 p-4 rounded flex justify-between items-center border border-orange-700/50">
+                    <div><span class="block text-xs uppercase text-slate-400">Mover a Cajita 2</span><span class="font-bold text-orange-400">Fondo Herr.</span></div>
                     <span id="modalHerr" class="text-2xl font-black text-white">$0</span>
                 </div>
-                <div class="bg-slate-800 p-4 rounded-lg flex justify-between items-center border border-emerald-700/50 mt-4">
-                    <div>
-                        <span class="block text-xs uppercase text-slate-400">Ganancia Neta Combinada</span>
-                        <span class="font-bold text-emerald-400 text-sm">Libre para Sueldos</span>
-                    </div>
-                    <span id="modalSueldo" class="text-xl font-black text-white">$0</span>
+                <div class="bg-slate-800 p-4 rounded flex justify-between items-center border border-emerald-700/50">
+                    <div><span class="block text-xs uppercase text-slate-400">Sueldo / Mercado Pago</span><span class="font-bold text-emerald-400">Ganancia Neta</span></div>
+                    <span id="modalSueldo" class="text-2xl font-black text-white">$0</span>
                 </div>
             </div>
-            <button onclick="cerrarModal()" class="w-full mt-6 py-3 bg-slate-600 hover:bg-slate-500 rounded text-white font-bold transition-colors">
-                Hecho, Cerrar
-            </button>
+            <button onclick="cerrarModalCorte()" class="w-full mt-6 py-3 bg-slate-600 hover:bg-slate-500 rounded text-white font-bold transition-colors">Hecho, Cerrar</button>
         </div>
     </div>
 
-    <!-- CÓDIGO Y LÓGICA -->
+    <!-- MODAL REGISTRO SCRAP -->
+    <div id="modalScrap" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4">
+        <div class="bg-zulanaCard border border-slate-600 rounded-xl p-6 w-full max-w-md">
+            <h2 class="text-xl font-bold text-white mb-4">Registrar Nuevo Equipo (Scrap)</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Modelo del Equipo</label>
+                    <input type="text" id="scrapModelo" placeholder="Ej. Xbox One X" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Costo de Inversión (MXN)</label>
+                    <input type="number" id="scrapCosto" value="0" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Falla Reportada</label>
+                    <input type="text" id="scrapFalla" placeholder="Ej. Corto en 12v / Sin lector" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Estado de Viabilidad</label>
+                    <select id="scrapEstado" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-white text-sm">
+                        <option value="Apto Reparacion">🟢 Apto para Reparación</option>
+                        <option value="Venta Piezas">🔵 Apto Venta / Pantalla Sana</option>
+                        <option value="Solo Placa">🟡 Solo Componentes SMD / ICs</option>
+                        <option value="Inviable">🔴 Inviable / Evitar Acumular</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex gap-2 mt-6">
+                <button onclick="cerrarModalScrap()" class="flex-1 py-3 bg-slate-600 hover:bg-slate-500 rounded text-white font-bold transition-colors">Cancelar</button>
+                <button onclick="guardarScrapNube()" class="flex-1 py-3 bg-zulanaCyan hover:bg-zulanaCyanHover rounded text-white font-bold transition-colors">Guardar Equipo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LÓGICA JAVASCRIPT FIREBASE -->
     <script>
-        // 1. INICIALIZAR FIREBASE CON TUS LLAVES
+        // 1. INICIALIZAR FIREBASE CON TUS LLAVES EXACTAS
         const firebaseConfig = {
             apiKey: "AIzaSyAyNI-R8q-jJxnK-IqCO79RegN4c4Lck6o",
             authDomain: "app-zulana.firebaseapp.com",
@@ -235,11 +270,13 @@
             appId: "1:1069777321174:web:b0b49172848337ae4e1d77",
             measurementId: "G-RT59DH8FYD"
         };
-        
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 2. BASE DE DATOS LOCAL (Catálogo)
+        // Check connection
+        document.getElementById('statusNube').innerHTML = `<i class="fa-solid fa-cloud text-emerald-400"></i> Firebase Conectado`;
+
+        // 2. CATÁLOGO
         const catalogo = {
             "Tapas iPhone": [
                 { id: "iph11", nombre: "iPhone 8 a 11 Pro Max (Desensamble)", costo: 100, cobro: 900, tipo: "porcentaje" },
@@ -261,7 +298,7 @@
             "Universidad": [
                 { id: "uni1", nombre: "Limpieza de teléfono", costo: 10, cobro: 80, tipo: "fijo" },
                 { id: "uni2", nombre: "Pegado de pantalla despegada", costo: 10, cobro: 200, tipo: "fijo" },
-                { id: "uni3", nombre: "Cambio Thumbsticks (Control)", costo: 30, cobro: 150, tipo: "fijo" } // 10 insumo + 20 pieza
+                { id: "uni3", nombre: "Cambio Thumbsticks (Control)", costo: 30, cobro: 150, tipo: "fijo" }
             ],
             "Android": [
                 { id: "and1", nombre: "Centro Carga Económico (Moto E/A0x)", costo: 100, cobro: 400, tipo: "porcentaje" },
@@ -269,18 +306,13 @@
             ]
         };
 
-        let currentServiceType = "porcentaje"; // Define si el insumo se calcula al 5% o es fijo directo
-
-        // Variables Globales Diarias
+        let currentServiceType = "porcentaje"; 
         let hoyFI = 0; let hoyFH = 0; let hoyNeta = 0;
 
-        // 3. FUNCIONES DE INTERFAZ
         function switchView(viewId) {
             document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
             document.getElementById('view-'+viewId).classList.remove('hidden');
-            document.querySelectorAll('aside nav button').forEach(b => {
-                b.className = "w-full flex items-center gap-3 text-left p-3 rounded hover:bg-slate-700 text-slate-300 transition-colors";
-            });
+            document.querySelectorAll('aside nav button').forEach(b => b.className = "w-full flex items-center gap-3 text-left p-3 rounded hover:bg-slate-700 text-slate-300 transition-colors");
             document.getElementById('nav-'+viewId).className = "w-full flex items-center gap-3 text-left p-3 rounded bg-zulanaCyan text-white transition-colors";
         }
 
@@ -297,14 +329,12 @@
                 document.getElementById('descServicio').value = "";
                 document.getElementById('costoPieza').value = "0";
                 document.getElementById('totalCobrado').value = "0";
-                calcularCotizacion();
-                return;
+                calcularCotizacion(); return;
             }
 
             catalogo[cat].forEach(serv => {
                 let opt = document.createElement('option');
-                opt.value = serv.id;
-                opt.text = serv.nombre;
+                opt.value = serv.id; opt.text = serv.nombre;
                 selectItem.appendChild(opt);
             });
             seleccionarServicio();
@@ -336,50 +366,34 @@
         function calcularCotizacion() {
             let costoInput = parseFloat(document.getElementById('costoPieza').value) || 0;
             let total = parseFloat(document.getElementById('totalCobrado').value) || 0;
-            
-            let gb = total - costoInput;
-            if(gb < 0) gb = 0;
-
-            let fi = 0;
-            let fh = 0;
-            let neta = 0;
+            let gb = total - costoInput; if(gb < 0) gb = 0;
+            let fi = 0; let fh = 0; let neta = 0;
 
             if(currentServiceType === "fijo") {
-                // En Universidad/Mantenimientos, el costoInput es el insumoFijo (+ pieza si aplica). Ya se cobró.
-                fi = costoInput; // Solo informativo para el modal
-                fh = Math.round(gb * 0.05);
-                neta = gb - fh;
+                fi = costoInput; fh = Math.round(gb * 0.05); neta = gb - fh;
             } else {
-                fi = Math.round(gb * 0.05);
-                fh = Math.round(gb * 0.05);
-                neta = gb - fi - fh;
+                fi = Math.round(gb * 0.05); fh = Math.round(gb * 0.05); neta = gb - fi - fh;
             }
 
             document.getElementById('resGB').innerText = `$${gb}`;
             document.getElementById('resFI').innerText = `-$${currentServiceType === 'fijo' ? fi + ' (En Costo)' : fi}`;
             document.getElementById('resFH').innerText = `-$${fh}`;
             document.getElementById('resNeto').innerText = `$${neta}`;
-
             return { costo: costoInput, cobro: total, gb, fi, fh, neta, tipo: currentServiceType };
         }
 
-        // 4. LÓGICA DE FIREBASE (Guardar y Escuchar)
+        // GUARDAR REPARACIÓN (FIREBASE)
         async function guardarEnNube() {
             let desc = document.getElementById('descServicio').value.trim();
             let vals = calcularCotizacion();
             
-            if(desc === "" || vals.cobro === 0) {
-                alert("Completa la descripción y el cobro.");
-                return;
-            }
-
+            if(desc === "" || vals.cobro === 0) { alert("Completa la descripción y el cobro."); return; }
             document.getElementById('loadingOverlay').classList.remove('hidden');
 
             try {
-                // Guardar documento en Firestore
                 await db.collection("reparaciones").add({
                     fecha: firebase.firestore.FieldValue.serverTimestamp(),
-                    diaLocal: new Date().toLocaleDateString('es-MX'), // Formato "DD/MM/YYYY"
+                    diaLocal: new Date().toLocaleDateString('es-MX'),
                     tecnico: document.getElementById('userProfile').value,
                     descripcion: desc,
                     costoRefaccion: vals.costo,
@@ -390,24 +404,16 @@
                     gananciaNeta: vals.neta,
                     tipoCobro: vals.tipo
                 });
-
-                // Limpiar form
-                document.getElementById('catServicio').value = "Personalizado";
-                cargarServicios();
-            } catch (error) {
-                console.error("Error al guardar:", error);
-                alert("Hubo un error al sincronizar con la nube.");
-            } finally {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }
+                document.getElementById('descServicio').value = "";
+                document.getElementById('costoPieza').value = "0";
+                document.getElementById('totalCobrado').value = "0";
+            } catch (error) { console.error(error); alert("Error al guardar."); } 
+            finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
         }
 
-        // Escuchar base de datos en Tiempo Real (Solo registros de "Hoy")
+        // ESCUCHAR REPARACIONES DE HOY (FIREBASE)
         const hoyString = new Date().toLocaleDateString('es-MX');
-        
-        db.collection("reparaciones")
-          .where("diaLocal", "==", hoyString)
-          .orderBy("fecha", "desc")
+        db.collection("reparaciones").where("diaLocal", "==", hoyString).orderBy("fecha", "desc")
           .onSnapshot((querySnapshot) => {
             const lista = document.getElementById('listaReparaciones');
             lista.innerHTML = "";
@@ -420,41 +426,94 @@
 
             querySnapshot.forEach((doc) => {
                 let data = doc.data();
-                
-                // Sumar al corte del día
-                // Ojo: Si el tipo es 'fijo', el insumo ya está contemplado en el gasto directo, pero lo sumamos al acumulado si se quiere reponer
                 if(data.tipoCobro !== "fijo") { hoyFI += data.fondoInsumo; } 
                 hoyFH += data.fondoHerr;
                 hoyNeta += data.gananciaNeta;
 
-                // Renderizar Tarjeta
-                let tarjeta = `
-                <div class="bg-slate-800 p-3 rounded border border-slate-700 flex justify-between items-center shadow">
+                lista.innerHTML += `
+                <div class="bg-slate-800 p-3 rounded border border-slate-700 flex justify-between items-center shadow mb-2">
                     <div>
-                        <h4 class="text-white font-bold text-sm">${data.descripcion} 
-                            <span class="text-[10px] bg-slate-700 px-2 rounded text-zulanaCyan ml-1">${data.tecnico}</span>
-                        </h4>
+                        <h4 class="text-white font-bold text-sm">${data.descripcion} <span class="text-[10px] bg-slate-700 px-2 rounded text-zulanaCyan ml-1">${data.tecnico}</span></h4>
                         <p class="text-xs text-slate-400">Cobro: $${data.totalCobrado} | Refacción: $${data.costoRefaccion}</p>
                     </div>
                     <div class="text-right">
                         <span class="block text-emerald-400 font-bold text-sm">+$${data.gananciaNeta}</span>
-                        <span class="block text-slate-500 text-[10px]">FH: $${data.fondoHerr}</span>
+                        <span class="block text-slate-500 text-[10px]">FI: $${data.fondoInsumo} | FH: $${data.fondoHerr}</span>
                     </div>
                 </div>`;
-                lista.innerHTML += tarjeta;
             });
         });
 
-        // 5. MODAL DE CORTE
+        // ESCUCHAR HISTÓRICO DE FONDOS
+        db.collection("reparaciones").onSnapshot((querySnapshot) => {
+            let totalFondoInsumosHistorico = 0;
+            let totalFondoHerramientasHistorico = 0;
+            
+            querySnapshot.forEach((doc) => {
+                let data = doc.data();
+                if(data.tipoCobro !== "fijo") { totalFondoInsumosHistorico += data.fondoInsumo; }
+                totalFondoHerramientasHistorico += data.fondoHerr;
+            });
+
+            document.getElementById('totalHistoricoInsumos').innerText = `$${totalFondoInsumosHistorico.toLocaleString('es-MX')}.00`;
+            document.getElementById('totalHistoricoHerr').innerText = `$${totalFondoHerramientasHistorico.toLocaleString('es-MX')}.00`;
+        });
+
+        // MÓDULO SCRAP / INVENTARIO
+        function abrirModalScrap() { document.getElementById('modalScrap').classList.remove('hidden'); }
+        function cerrarModalScrap() { document.getElementById('modalScrap').classList.add('hidden'); }
+
+        async function guardarScrapNube() {
+            let mod = document.getElementById('scrapModelo').value.trim();
+            let cost = parseFloat(document.getElementById('scrapCosto').value) || 0;
+            let falla = document.getElementById('scrapFalla').value.trim();
+            let est = document.getElementById('scrapEstado').value;
+
+            if(mod === "") { alert("Ingresa el modelo."); return; }
+
+            try {
+                await db.collection("scrap_inventario").add({
+                    fecha: firebase.firestore.FieldValue.serverTimestamp(),
+                    modelo: mod, costo: cost, falla: falla, estado: est
+                });
+                cerrarModalScrap();
+                document.getElementById('scrapModelo').value = ""; document.getElementById('scrapCosto').value = "0"; document.getElementById('scrapFalla').value = "";
+            } catch(e) { console.error(e); alert("Error guardando equipo donante."); }
+        }
+
+        // ESCUCHAR INVENTARIO SCRAP (FIREBASE)
+        db.collection("scrap_inventario").orderBy("fecha", "desc").onSnapshot((querySnapshot) => {
+            const lista = document.getElementById('listaScrap');
+            lista.innerHTML = "";
+
+            if(querySnapshot.empty) {
+                lista.innerHTML = `<p class="text-slate-500 italic text-sm">No tienes equipos registrados.</p>`; return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                let d = doc.data();
+                let colorClase = d.estado === "Apto Reparacion" ? "bg-emerald-900 text-emerald-300" :
+                                 d.estado === "Venta Piezas" ? "bg-blue-900 text-blue-300" :
+                                 d.estado === "Solo Placa" ? "bg-yellow-900 text-yellow-300" : "bg-red-900 text-red-300";
+
+                lista.innerHTML += `
+                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                    <h4 class="font-bold text-white text-lg">${d.modelo}</h4>
+                    <p class="text-sm text-slate-400">Falla: ${d.falla}</p>
+                    <p class="text-sm text-slate-400 font-bold mb-2">Inversión: $${d.costo} MXN</p>
+                    <span class="inline-block px-2 py-1 text-xs font-bold rounded ${colorClase}">${d.estado}</span>
+                </div>`;
+            });
+        });
+
+        // MODAL CORTE DIARIO
         function showCloseDayModal() {
             document.getElementById('modalInsumos').innerText = `$${hoyFI}`;
             document.getElementById('modalHerr').innerText = `$${hoyFH}`;
             document.getElementById('modalSueldo').innerText = `$${hoyNeta}`;
             document.getElementById('modalCorte').classList.remove('hidden');
         }
-        function cerrarModal() {
-            document.getElementById('modalCorte').classList.add('hidden');
-        }
+        function cerrarModalCorte() { document.getElementById('modalCorte').classList.add('hidden'); }
 
     </script>
 </body>
